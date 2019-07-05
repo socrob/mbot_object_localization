@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<launch>
+
+ <!-- small description about your node -->
+ <arg name="camera_depth_topic" default="/head_camera/depth/image_rect"/>
+ <arg name="camera_info_topic" default="/head_camera/depth/camera_info"/>
+ <arg name="roi_array_topic" default = "object_detector/detections"/>
+ <arg name="node_frequency" default="100.0"/>
+ <arg name="filter_classes" default="[]"/>
+ <arg name="remove_intersections" default="false"/>
+ <arg name="inner_ratio" default="0.125"/>
+ <arg name="center_inner_region" default="true"/>
+ <arg name="node_name" default="object_localizer"/>
+
+ <!-- unused currently -->
+ <arg name="detection_mode" default="person"/>
+
+ <rosparam command="load" file="$(find mbot_object_localization)/ros/config/params.yaml"/>
+
+ <node pkg="mbot_object_localization" type="object_localization_node" name="$(arg node_name)" output="screen">
+     <remap from="/camera/depth/image_rect" to="$(arg camera_depth_topic)"/>
+     <remap from="/camera/depth/camera_info" to="$(arg camera_info_topic)"/>
+     <remap from="/detection_result" to="$(arg roi_array_topic)"/>
+     <param name="node_frequency" type="double" value="$(arg node_frequency)"/>
+     <param name="detection_mode" type="string" value="$(arg detection_mode)"/>
+     <param name="remove_intersections" type="bool" value="$(arg remove_intersections)"/>
+     <param name="inner_ratio" type="double" value="$(arg inner_ratio)"/>
+     <param name="center_inner_region" type="bool" value="$(arg center_inner_region)"/>
+     <rosparam param="filter_classes" subst_value="true">$(arg filter_classes)</rosparam>
+ </node>
+
+</launch>

@@ -1,0 +1,6 @@
+#!/usr/bin/env python
+
+import mbot_object_localization_ros.mbot_object_localization_node
+
+if __name__ == '__main__':
+ mbot_object_localization_ros.mbot_object_localization_node.main()
